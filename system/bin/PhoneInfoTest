@@ -1,0 +1,58 @@
+#!/system/bin/sh
+#########################################################################
+#	PhoneInfoTest 																	 											#
+#	adb push PhoneInfoTest /data/data																			#
+#	                          																						#
+#########################################################################
+
+#IMEI_TOOL="/system/bin/get_IMEI"
+XSN_TOOL="/system/bin/wprod"
+MAC_ADDR_TOOL="/system/bin/wprod"
+
+INDEX=0
+COUNT=5
+FAIL_FLAG="fail"
+#debug.adbnvram.result : fail ; 0 or other value , success
+
+function print_usage(){
+    echo "Usage:"$0""
+    echo "[0=audio] [0=Read|1=Write[String]]"
+    echo "[1=camera] [0=Read|1=Write[String]]"
+}
+
+case $1 in
+    "1") #Audio code
+        case $2 in
+            "0") # Read
+            		$MAC_ADDR_TOOL audio r
+            ;;
+            "1") # Write
+            		$MAC_ADDR_TOOL audio w $3
+            ;;
+            *)
+                print_usage
+                exit 1
+            ;;
+        esac
+    ;;
+    "2") #Camera code
+        case $2 in
+            "0") # Read
+            		$MAC_ADDR_TOOL camera r
+            ;;
+            "1") # Write
+            		$MAC_ADDR_TOOL camera w $3
+            ;;
+            *)
+                print_usage
+                exit 1
+            ;;
+        esac
+    ;;
+    *)
+        print_usage
+        exit 1
+    ;;
+esac
+
+exit 0
